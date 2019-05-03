@@ -1,0 +1,58 @@
+CREATE DATABASE HogwartsSchoolSGBD
+GO 
+
+USE HogwartsSchoolSGBD
+GO
+
+CREATE TABLE Casa(
+	Cid INT PRIMARY KEY,
+	Denumire VARCHAR(20),
+	Animal VARCHAR(20)
+)
+
+CREATE TABLE Profesori(
+	Pid INT PRIMARY KEY,
+	Nume VARCHAR(20),
+	Prenume VARCHAR(20)
+)
+
+CREATE TABLE Locatii(
+	Lid INT PRIMARY KEY,
+	Denumire VARCHAR(50)
+)
+
+CREATE TABLE Materii(
+	Mid INT PRIMARY KEY,
+	Denumire VARCHAR(50),
+	Pid INT FOREIGN KEY REFERENCES Profesori(Pid)
+)
+
+CREATE TABLE LocMat(
+	Lid INT FOREIGN KEY REFERENCES Locatii(Lid),
+	Mid INT FOREIGN KEY REFERENCES Materii(Mid),
+	NrMat INT,
+	CONSTRAINT pk_LocMat PRIMARY KEY(Lid, Mid)
+)
+
+CREATE TABLE Studenti(
+	STid INT PRIMARY KEY,
+	Nume VARCHAR(20),
+	Prenume VARCHAR(20),
+	Oras VARCHAR(20),
+	Aid INT,
+	Cid INT FOREIGN KEY REFERENCES Casa(Cid),
+)
+
+
+CREATE TABLE StudProf(
+	STid INT FOREIGN KEY REFERENCES Studenti(STid),
+	Pid INT FOREIGN KEY REFERENCES Profesori(Pid),
+	NrMat INT
+	CONSTRAINT pk_StudProf PRIMARY KEY(STid, Pid)
+)
+
+CREATE TABLE Palarii(
+	PAid INT PRIMARY KEY,
+	Descriere VARCHAR(20),
+	Pid INT FOREIGN KEY REFERENCES Profesori(Pid)
+)
